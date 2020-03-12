@@ -6,18 +6,19 @@ import {
 } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
 import { formatPrice } from '../../util/format';
 import * as CartActions from '../../store/modules/cart/actions';
 import { Container, ProductTable, Total } from './styles';
 
-function Cart({ cart, removeFromCart, updateAmount, total }) {
+function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
   function increment(product) {
-    updateAmount(product.id, product.amount + 1);
+    updateAmountRequest(product.id, product.amount + 1);
   }
 
   function decrement(product) {
-    updateAmount(product.id, product.amount - 1);
+    updateAmountRequest(product.id, product.amount - 1);
   }
   return (
     <Container>
@@ -33,7 +34,7 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
         </thead>
         <tbody>
           {cart.map(product => (
-            <tr>
+            <tr key={product.id}>
               <td>
                 <img src={product.image} alt={product.title} />
               </td>
@@ -78,6 +79,13 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
     </Container>
   );
 }
+
+Cart.propTypes = {
+  cart: PropTypes.node.isRequired,
+  removeFromCart: PropTypes.func.isRequired,
+  updateAmount: PropTypes.func.isRequired,
+  total: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = state => ({
   cart: state.cart.map(product => ({

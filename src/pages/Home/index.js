@@ -1,8 +1,8 @@
-/* eslint-disable react/state-in-constructor */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { MdAddShoppingCart } from 'react-icons/md';
+import PropTypes from 'prop-types';
 
 import api from '../../services/api';
 
@@ -13,6 +13,11 @@ import { ProductList } from './styles';
 class Home extends Component {
   state = {
     products: [],
+  };
+
+  static propTypes = {
+    addToCartRequest: PropTypes.func.isRequired,
+    amount: PropTypes.string.isRequired,
   };
 
   async componentDidMount() {
