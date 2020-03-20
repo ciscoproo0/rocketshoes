@@ -44,6 +44,10 @@ export const ProductTable = styled.table`
     border-bottom: 1px solid #eee;
   }
 
+  tbody td span {
+    color: #666;
+  }
+
   img {
     height: 100px;
   }

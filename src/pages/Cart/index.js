@@ -3,6 +3,7 @@ import {
   MdRemoveCircleOutline,
   MdAddCircleOutline,
   MdDelete,
+  MdShoppingCart,
 } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -25,48 +26,70 @@ function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
       <ProductTable>
         <thead>
           <tr>
-            <th />
+            <th> </th>
             <th>PRODUTO</th>
             <th>QTD</th>
             <th>SUBTOTAL</th>
-            <th />
+            <th> </th>
           </tr>
         </thead>
-        <tbody>
-          {cart.map(product => (
-            <tr key={product.id}>
+        {cart.length === 0 ? (
+          <tbody>
+            <tr>
               <td>
-                <img src={product.image} alt={product.title} />
+                <MdShoppingCart size={60} color="#666" />
               </td>
+              <td> </td>
               <td>
-                <strong>{product.title}</strong>
-                <span>{product.priceFormatted}</span>
+                <span>Carrinho Vazio</span>
               </td>
-              <td>
-                <div>
-                  <button type="button" onClick={() => decrement(product)}>
-                    <MdRemoveCircleOutline size={20} color="#7159c1" />
-                  </button>
-                  <input type="number" readOnly value={product.amount} />
-                  <button type="button" onClick={() => increment(product)}>
-                    <MdAddCircleOutline size={20} color="#7159c1" />
-                  </button>
-                </div>
-              </td>
-              <td>
-                <strong>{product.subtotal}</strong>
-              </td>
-              <td>
-                <button
-                  type="button"
-                  onClick={() => removeFromCart(product.id)}
-                >
-                  <MdDelete size={20} color="#7159c1" />
-                </button>
-              </td>
+              <td> </td>
+              <td> </td>
             </tr>
-          ))}
-        </tbody>
+          </tbody>
+        ) : (
+          <tbody>
+            {cart.map(product =>
+              product ? (
+                <tr key={product.id}>
+                  <td>
+                    <img src={product.image} alt={product.title} />
+                  </td>
+                  <td>
+                    <strong>{product.title}</strong>
+                    <span>{product.priceFormatted}</span>
+                  </td>
+                  <td>
+                    <div>
+                      <button type="button" onClick={() => decrement(product)}>
+                        <MdRemoveCircleOutline size={20} color="#7159c1" />
+                      </button>
+                      <input type="number" readOnly value={product.amount} />
+                      <button type="button" onClick={() => increment(product)}>
+                        <MdAddCircleOutline size={20} color="#7159c1" />
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <strong>{product.subtotal}</strong>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => removeFromCart(product.id)}
+                    >
+                      <MdDelete size={20} color="#7159c1" />
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                <div>
+                  <h1>Socorr</h1>
+                </div>
+              )
+            )}
+          </tbody>
+        )}
       </ProductTable>
 
       <footer>
@@ -83,7 +106,7 @@ function Cart({ cart, removeFromCart, updateAmountRequest, total }) {
 Cart.propTypes = {
   cart: PropTypes.node.isRequired,
   removeFromCart: PropTypes.func.isRequired,
-  updateAmount: PropTypes.func.isRequired,
+  updateAmountRequest: PropTypes.func.isRequired,
   total: PropTypes.string.isRequired,
 };
 
